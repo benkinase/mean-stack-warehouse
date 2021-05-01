@@ -7,19 +7,20 @@ const conn_options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-  //poolSize: 50,
+  poolSize: 50,
 };
-let db = "mongodb://127.0.0.1:27017/meanStack";
-let dbStringConsole = db.split("/")[1];
-const PORT = process.env.PORT || 9000;
+let URI: string = process.env.MONGO_LOCAL;
+let dbStringConsole = URI.split("/")[3];
+
+const PORT: string | number = process.env.PORT || 9000;
 
 mongoose
-  .connect(db, conn_options)
+  .connect(URI, conn_options)
   .catch((error) => {
     console.error(error.stack), process.exit(1);
   })
   .then(async () => {
     app.listen(PORT, () => {
-      console.log(`Server listening on ${PORT}:${dbStringConsole}`);
+      console.log(`Server listening on ${PORT}=>${dbStringConsole}`);
     });
   });

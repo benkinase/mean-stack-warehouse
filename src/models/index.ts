@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IWarehouse, IBook } from "../types";
 
 const WarehouseSchema = new mongoose.Schema({
   name: {
@@ -17,6 +18,11 @@ const WarehouseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  decommissioned: {
+    type: Boolean,
+    default: false,
+  },
+  books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
 });
 const BookSchema = new mongoose.Schema({
   title: {
@@ -34,5 +40,8 @@ const BookSchema = new mongoose.Schema({
   },
 });
 
-export const Warehouse = mongoose.model("Warehouse", WarehouseSchema);
-export const Book = mongoose.model("Book", BookSchema);
+export const Warehouse = mongoose.model<IWarehouse>(
+  "Warehouse",
+  WarehouseSchema
+);
+export const Book = mongoose.model<IBook>("Book", BookSchema);

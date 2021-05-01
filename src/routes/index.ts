@@ -1,2 +1,2 @@
-export { bRouter } from "./book";
-export { wRouter } from "./warehouse";
+export { bookRouter } from "./book";
+export { warehouseRouter } from "./warehouse";

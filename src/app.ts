@@ -1,17 +1,21 @@
 import express, { Request, NextFunction, Application, Response } from "express";
 import cors from "cors";
-import { wRouter, bRouter } from "./routes";
+import { warehouseRouter, bookRouter } from "./routes";
 
+// instantiate express
 const app: Application = express();
+
+// apply midddleware
 app.use(cors());
 app.use(express.json());
 
+// home page
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.send("Node+Typescript");
+  res.send("NodeJS::Express::Typescript server running");
 });
-
-app.use("/api/v2/warehouse", wRouter);
-app.use("/api/v2/books", bRouter);
+// base routes
+app.use("/api/v2/warehouses", warehouseRouter);
+app.use("/api/v2/books", bookRouter);
 app.use("*", (req, res) => res.status(404).json({ error: "Not found" }));
 
 export default app;
