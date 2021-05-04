@@ -1,6 +1,6 @@
 import express, { Request, NextFunction, Application, Response } from "express";
 import cors from "cors";
-import { warehouseRouter, bookRouter } from "./routes";
+import { coreRouter } from "./routes";
 
 // instantiate express
 const app: Application = express();
@@ -14,8 +14,9 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.send("NodeJS::Express::Typescript server running");
 });
 // base routes
-app.use("/api/v2/warehouses", warehouseRouter);
-app.use("/api/v2/books", bookRouter);
-app.use("*", (req, res) => res.status(404).json({ error: "Not found" }));
+app.use("/api/v2/warehouses", coreRouter);
+app.use("*", (req: Request, res: Response) =>
+  res.status(404).json({ error: "Not found" })
+);
 
 export default app;

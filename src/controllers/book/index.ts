@@ -3,7 +3,7 @@ import { Book } from "../../models";
 import { IBook } from "../../types";
 
 // Public access
-export const getBooks = async (req: Request, res: Response) => {
+export const allBooks = async (req: Request, res: Response) => {
   try {
     const books: IBook[] = await Book.find({});
     if (!books) {
@@ -16,7 +16,7 @@ export const getBooks = async (req: Request, res: Response) => {
 };
 export const warehouseBooks = async (req: Request, res: Response) => {
   const warehouseId = req.params.warehouseId;
-  console.log(req);
+
   try {
     const books: IBook[] = await Book.find({ warehouse: warehouseId });
     if (!books) {
@@ -48,16 +48,18 @@ export const createBook = async (req: Request, res: Response) => {
     return res.status(500).send({ message: error.message });
   }
 };
-
+// find book that belongs to a warehouse
 export const getBook = async (req: Request, res: Response) => {
   const bookId = req.params.bookId;
+  //const warehouseId = req.params.warehouseId;
+
   try {
-    // find book
-    const book = Book.findById({ _id: bookId });
+    // get single book and the warehouse it belongs to
+    const book = await Book.findById(bookId).populate("warehouse").lean();
     if (book) {
       res.status(200).json(book);
     }
-    return res.status(404).json({ message: "Bok not found" });
+    return res.status(404).json({ message: "Book not found" });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
@@ -70,11 +72,7 @@ export const updateBook = async (req: Request, res: Response) => {
       { _id: bookId },
       { $set: req.body }
     );
-    const allBooks: IBook[] = await Book.find({});
-
-    return res
-      .status(200)
-      .json({ message: "Book updated", book: updateBook, books: allBooks });
+    return res.status(200).send(updateBook);
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }

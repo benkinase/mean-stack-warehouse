@@ -7,12 +7,13 @@ const conn_options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
   poolSize: 50,
 };
-let URI: string = process.env.MONGO_LOCAL;
-let dbStringConsole = URI.split("/")[3];
+const URI = process.env.MONGO_LOCAL;
+const dbString = URI.split("/")[3];
 
-const PORT: string | number = process.env.PORT || 9000;
+const PORT = process.env.PORT || 9000;
 
 mongoose
   .connect(URI, conn_options)
@@ -21,6 +22,6 @@ mongoose
   })
   .then(async () => {
     app.listen(PORT, () => {
-      console.log(`Server listening on ${PORT}=>${dbStringConsole}`);
+      console.log(`Server listening on ${PORT}=>${dbString}`);
     });
   });

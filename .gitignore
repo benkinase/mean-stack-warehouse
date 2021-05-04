@@ -129,4 +129,5 @@ tmp/
 temp/
 node_modules
 docs.txt
+build
 # End of https://www.toptal.com/developers/gitignore/api/node

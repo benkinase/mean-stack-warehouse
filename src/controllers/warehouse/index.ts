@@ -34,7 +34,7 @@ export const createWarehouse = async (req: Request, res: Response) => {
 export const getWarehouse = async (req: Request, res: Response) => {
   const warehouseId = req.params.warehouseId;
   try {
-    const warehouse = Warehouse.find({ _id: warehouseId });
+    const warehouse = await Warehouse.findById(warehouseId);
     if (warehouse) {
       return res.status(200).send(warehouse);
     }
@@ -44,9 +44,12 @@ export const getWarehouse = async (req: Request, res: Response) => {
 };
 export const updateWarehouse = async (req: Request, res: Response) => {
   const warehouseId = req.params.warehouseId;
-  const wareUpdate: IWarehouse = req.body;
+  const wareUpdate = {
+    decommissioned: !req.body.decommissioned,
+  };
+
   try {
-    const warehouse = Warehouse.findByIdAndUpdate(
+    const warehouse = await Warehouse.findByIdAndUpdate(
       { _id: warehouseId },
       { $set: wareUpdate }
     );

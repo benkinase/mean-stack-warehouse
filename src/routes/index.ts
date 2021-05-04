@@ -1,2 +1,2 @@
-export { bookRouter } from "./book";
-export { warehouseRouter } from "./warehouse";
+//export { bookRouter } from "./book";
+export { warehouseRouter as coreRouter } from "./warehouse";
